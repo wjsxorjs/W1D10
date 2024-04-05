@@ -17,18 +17,21 @@ public class ClickBallFall2 extends JFrame {
 	int x, y;
 	int r, g, b;
 	
+	
 	JPanel p;
+	
+	Thread t1;
 	
 	class MyCircle extends Thread{
 		int x, y, wh;
 		Color c;
-		boolean falling = true;
+		boolean onScreen = true;
 		int sleeptime;
 		
-		public MyCircle(int x, int y) {
+		public MyCircle() {
 			
-			this.x = x;
-			this.y = y;
+			this.x = (int)(Math.random()*p.getWidth());
+			this.y = -150;
 			
 			wh = (int)(Math.random()*50+50);
 
@@ -45,12 +48,9 @@ public class ClickBallFall2 extends JFrame {
 		@Override
 		public void run() {
 			while(true) {
-				if(falling) {
-					this.y += 5;
-					if(this.y>p.getHeight()-this.wh) {
-						this.y = p.getHeight()-this.wh;
-						falling = false;
-					}
+				this.y += 5;
+				if(this.y > p.getHeight()) {
+					onScreen = false;					
 				}
 				p.repaint();
 				
@@ -82,8 +82,12 @@ public class ClickBallFall2 extends JFrame {
 				
 				for(int i=0;i<mcArr.size();i++) {
 					MyCircle mc = mcArr.get(i);
-					bufG.setColor(mc.c);
-					bufG.fillOval(mc.x, mc.y, mc.wh, mc.wh);
+					if(mc.onScreen) {
+						bufG.setColor(mc.c);
+						bufG.fillOval(mc.x, mc.y, mc.wh, mc.wh);
+					} else {
+						mcArr.remove(mc);
+					}
 				}
 				
 				
@@ -97,11 +101,26 @@ public class ClickBallFall2 extends JFrame {
 		
 		this.add(p);
 		
+		t1 = new Thread() {
+			
+			@Override
+			public void run() {
+				while(true) {
+					
+					mcArr.add(mc = new MyCircle());
+					mc.start();
+					try {
+						sleep(500);
+					} catch (InterruptedException e) {}
+				}
+			}
+			
+		};
 		
 		this.setBounds(100, 100, 500, 500);
 		this.setVisible(true);
 		
-		
+		t1.start();
 		
 		this.addWindowListener(new WindowAdapter() {
 		@Override
@@ -110,17 +129,6 @@ public class ClickBallFall2 extends JFrame {
 		}
 		});
 		
-		p.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				x = e.getX();
-				y = e.getY();
-				
-				mcArr.add(mc = new MyCircle(x,y));
-				mc.start();
-			}
-			
-		});
 		
 	}
 
