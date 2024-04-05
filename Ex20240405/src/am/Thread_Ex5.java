@@ -26,19 +26,22 @@ public class Thread_Ex5 extends Thread {
 //		
 //		fe5.x=fe5.p.getWidth()-50;
 		
-		for(int i=0; i<1000;i++) {
+		while(true) {
+			fe5.x += fe5.xInc;
+			
 			if(fe5.x > fe5.p.getWidth()-50) {
-				fe5.x = fe5.getWidth()-50;
+				fe5.x = fe5.p.getWidth()-50;
 				fe5.xInc *= -1;
 			} else if(fe5.x < 0) {
 				fe5.x = 0;
 				fe5.xInc *= -1;
 			}
-				fe5.x += fe5.xInc;
-				fe5.p.repaint();
+
+			fe5.p.repaint();
+				
 			
 			try {
-				Thread.sleep(50);
+				Thread.sleep(10);
 			} catch (Exception e) {}
 		}
 	}
