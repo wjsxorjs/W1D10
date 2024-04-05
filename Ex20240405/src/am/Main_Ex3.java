@@ -14,7 +14,7 @@ public class Main_Ex3 {
 					//   그러므로 독립적인 수행을 하지 않는다.
 
 		
-		Thread_Ex3 t2 = new Thread_Ex3();
+		Thread_Ex4 t2 = new Thread_Ex4();
 		t2.start();
 //		try {
 //			Thread.sleep(300);
