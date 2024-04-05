@@ -30,10 +30,11 @@ public class ClickBallFall2 extends JFrame {
 		
 		public MyCircle() {
 			
-			this.x = (int)(Math.random()*p.getWidth());
-			this.y = -150;
 			
 			wh = (int)(Math.random()*50+50);
+			
+			this.x = (int)(Math.random()*(p.getWidth()-(wh/2)));
+			this.y = -150;
 
 			int r = (int)(Math.random()*256);
 			int g = (int)(Math.random()*256);
@@ -41,7 +42,7 @@ public class ClickBallFall2 extends JFrame {
 			
 			c = new Color(r, g, b);
 			
-			sleeptime = (int)(Math.random()*80+10);
+			sleeptime = (int)(Math.random()*5+5);
 			
 		}
 		
@@ -81,6 +82,7 @@ public class ClickBallFall2 extends JFrame {
 				Graphics bufG = buf.getGraphics();
 				
 				for(int i=0;i<mcArr.size();i++) {
+					System.out.println(mcArr.size());
 					MyCircle mc = mcArr.get(i);
 					if(mc.onScreen) {
 						bufG.setColor(mc.c);
@@ -110,7 +112,7 @@ public class ClickBallFall2 extends JFrame {
 					mcArr.add(mc = new MyCircle());
 					mc.start();
 					try {
-						sleep(500);
+						sleep(30);
 					} catch (InterruptedException e) {}
 				}
 			}

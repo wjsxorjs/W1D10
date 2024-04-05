@@ -26,11 +26,12 @@ public class ClickBallFall1 extends JFrame {
 		int sleeptime;
 		
 		public MyCircle(int x, int y) {
-			
-			this.x = x;
-			this.y = y;
-			
+
 			wh = (int)(Math.random()*50+50);
+			
+			this.x = x-(wh/2);
+			this.y = y-(wh/2);
+			
 
 			int r = (int)(Math.random()*256);
 			int g = (int)(Math.random()*256);
@@ -38,7 +39,7 @@ public class ClickBallFall1 extends JFrame {
 			
 			c = new Color(r, g, b);
 			
-			sleeptime = (int)(Math.random()*80+10);
+			sleeptime = (int)(Math.random()*50+10);
 			
 		}
 		
@@ -47,18 +48,21 @@ public class ClickBallFall1 extends JFrame {
 			while(true) {
 				if(falling) {
 					this.y += 5;
-					if(this.y>p.getHeight()-(this.wh/2)) {
-						this.y = p.getHeight()-(this.wh/2);
+					if(this.y>p.getHeight()-this.wh) {
+						this.y = p.getHeight()-this.wh;
 						falling = false;
 					}
+				} else {
+					break;
 				}
 				p.repaint();
-				
 				try {
 					Thread.sleep(sleeptime);
 				} catch (InterruptedException e) {}
 			}
+			ClickBallFall1.this.mcArr.remove(this);
 		}
+		
 		
 		
 	}
@@ -83,7 +87,7 @@ public class ClickBallFall1 extends JFrame {
 				for(int i=0;i<mcArr.size();i++) {
 					MyCircle mc = mcArr.get(i);
 					bufG.setColor(mc.c);
-					bufG.fillOval(mc.x-(mc.wh/2), mc.y-(mc.wh/2), mc.wh, mc.wh);
+					bufG.fillOval(mc.x, mc.y, mc.wh, mc.wh);
 				}
 				
 				
